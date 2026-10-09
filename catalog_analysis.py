@@ -174,3 +174,35 @@ def top_n_by_rating(movies, n=3):
     return [(m['title'] , m['rating']) for m in top_n]
 
 print(top_n_by_rating(movies))
+
+# этап 6 - пишем функции со словарями
+
+def count_by_genre(movies):
+    '''функция считает количество фильмов
+    для кажджого жанра'''
+    result = {}
+    for movie in movies:
+        for genre in movie['genres']:
+            result[genre] = result.get(genre, 0) + 1
+    return result
+
+#print(count_by_genre(movies))
+
+def actor_filmography(movies):
+    '''возвращает словарь актёров и
+    списков фильмов с их участием'''
+    result = {}
+    for movie in movies:
+        for actor in movie['actors']:
+            if actor not in result:
+                result[actor] = []
+            result[actor].append(movie['title'])
+    return result
+
+#print(actor_filmography(movies))
+
+top_movies = {m['title']: m['rating']
+              for m in movies
+              if m['rating'] > average_rating(movies)}
+
+#print(top_movies)
