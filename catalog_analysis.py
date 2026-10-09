@@ -26,6 +26,8 @@ movies = [
 # выполняем первый этап
 
 def average_rating(movies):
+    '''функция для подсчёта средней
+    пользовательской оценки фильмов'''
     sum_rating  = sum(m['rating'] for m in movies)
     rating = sum_rating / len(movies)
     return round(rating, 1)
@@ -33,6 +35,9 @@ def average_rating(movies):
 # print(average_rating(movies))
 
 def catalog_age_stats(movies, current_year = 2026):
+  '''функция, возвращающая кортеж
+  из 3 значений - минимальный, средний 
+  и максимальный возраст фильма'''
   age_list = []
   for movie in movies:
     age = current_year - movie['year']
@@ -43,6 +48,8 @@ def catalog_age_stats(movies, current_year = 2026):
 # print(catalog_age_stats(movies))
 
 def duration_in_hours(minutes):
+   '''функция перевода длительности фильма
+   из минут в формат "1ч 20м"   '''
    hours = minutes // 60
    minute = minutes % 60
    return f'{hours}ч {minute}м'
@@ -53,6 +60,8 @@ def duration_in_hours(minutes):
 # приступаем ко второму этапу
 
 def rating_tier(rating):
+    '''категоризируем фильмы по 
+        пользовательской оценке'''
     if rating >= 9:
         return 'шедевр' if rating <= 10 else 'некорректный рейтинг'
     elif rating >= 7 and rating <= 8.9:
@@ -66,6 +75,8 @@ def rating_tier(rating):
 #   print(rating_tier(m['rating']))
 
 def decade_label(year):
+    '''категоризируем фильмы по 
+    году выпуска'''
     match year:
         case y if y > 2020:
           return 'новые'
@@ -76,3 +87,35 @@ def decade_label(year):
 
 #for m in movies:
 #   print(decade_label(m['year']))
+
+# приступаем к третьему этапу
+
+for movie in movies:
+    '''выводим все названия фильмов
+    не комедий'''
+    if 'comedy' in movie['genres']:
+       continue
+    print(f'Not a comedy movie: {movie['title']}')
+
+i = 0
+while i < len(movies):
+    '''функция выводит название первого
+    фильма с рейтингом больше 9'''
+    if movies[i]['rating'] > 9:
+        print(f'Первый шедевр: {movies[i]['title']}')
+        break
+    i += 1
+else:
+    print('Шедевров не найдено')
+
+def count_long_movies(movies, threshold=120):
+    '''считаем и выводим количество 
+    длительных фильмов, длительные = дольше 
+    порога (threshold)'''
+    i = 0
+    for movie in movies:
+        if movie['duration_min'] > 120:
+            i += 1
+    return f'Длинных фильмов: {i}'
+
+print(count_long_movies(movies))
