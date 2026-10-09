@@ -147,10 +147,30 @@ def format_report_line(movie):
    return (
     f'"{normalize_title(movie['title'])}" ({movie['year']})'
     f' - {movie['rating']}/10, {duration_in_hours(movie['duration_min'])},'
-    f' жанры: {genre}' # разбили по строкам для проверки ruff
+    f' жанры: {genre}' # разбили по строкам для проверки ruff, обошлись без E501
 )
 # "The Quiet Algorithm" (2024) — 9.2/10, 1ч 58м, жанры: drama, sci-fi (ТЗ)
 # "The Quiet Algorithm" (2024) - 9.2/10, 1ч 58м, жанры: drama, sci-fi (Вывод функции)
 
 #for m in movies:
 #   print(format_report_line(m))
+
+# приступаем к 5 этапу работы
+
+def titles_sorted_by_rating(movies):
+   """функция возвращает список названий
+   фильмов, отсортированных по
+   убыванию рейтинга"""
+   sorted_movies = sorted(movies, key = lambda m: m['rating'], reverse=True)
+   return [m['title'] for m in sorted_movies]
+
+#print(titles_sorted_by_rating(movies))
+
+def top_n_by_rating(movies, n=3):
+    '''функция формирует топ 3 фильма 
+    по рейтингу и выводит название с рейтингом
+    для каждого фильма'''
+    top_n = sorted(movies, key = lambda m: m['rating'], reverse=True)[:n]
+    return [(m['title'] , m['rating']) for m in top_n]
+
+print(top_n_by_rating(movies))
