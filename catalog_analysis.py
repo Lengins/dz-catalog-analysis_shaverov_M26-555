@@ -90,23 +90,23 @@ def decade_label(year):
 
 # приступаем к третьему этапу
 
-for movie in movies:
-    '''выводим все названия фильмов
-    не комедий'''
-    if 'comedy' in movie['genres']:
-       continue
-    print(f'Not a comedy movie: {movie['title']}')
+#  for movie in movies:
+#     '''выводим все названия фильмов
+#     не комедий'''
+#     if 'comedy' in movie['genres']:
+#        continue
+#     print(f'Not a comedy movie: {movie['title']}')
 
 i = 0
-while i < len(movies):
-    '''функция выводит название первого
-    фильма с рейтингом больше 9'''
-    if movies[i]['rating'] > 9:
-        print(f'Первый шедевр: {movies[i]['title']}')
-        break
-    i += 1
-else:
-    print('Шедевров не найдено')
+# while i < len(movies):
+#     '''функция выводит название первого
+#     фильма с рейтингом больше 9'''
+#     if movies[i]['rating'] > 9:
+#         print(f'Первый шедевр: {movies[i]['title']}')
+#         break
+#     i += 1
+# else:
+#     print('Шедевров не найдено')
 
 def count_long_movies(movies, threshold=120):
     '''считаем и выводим количество 
@@ -173,7 +173,7 @@ def top_n_by_rating(movies, n=3):
     top_n = sorted(movies, key = lambda m: m['rating'], reverse=True)[:n]
     return [(m['title'] , m['rating']) for m in top_n]
 
-print(top_n_by_rating(movies))
+# print(top_n_by_rating(movies))
 
 # этап 6 - пишем функции со словарями
 
@@ -201,9 +201,9 @@ def actor_filmography(movies):
 
 #print(actor_filmography(movies))
 
-top_movies = {m['title']: m['rating']
-              for m in movies
-              if m['rating'] > average_rating(movies)}
+# top_movies = {m['title']: m['rating']
+#               for m in movies
+#               if m['rating'] > average_rating(movies)}
 
 #print(top_movies)
 
@@ -234,6 +234,8 @@ def genres_only_in_one(movies_a, movies_b):
     genres_b = {g for m in movies_b for g in m['genres']}
     return genres_a - genres_b
 
+# приступаем к 8 этапу 
+
 def iter_high_rated(movies, min_rating=8.0):
     '''функция выводит фильмы с рейтингом
     выше минимального заданного'''
@@ -241,11 +243,34 @@ def iter_high_rated(movies, min_rating=8.0):
         if movie['rating'] >= min_rating:
             yield movie
 
-for movie in iter_high_rated(movies):
-    print(format_report_line(movie))
+# for movie in iter_high_rated(movies):
+#     print(format_report_line(movie))
 # "The Dune Chronicles" (2021) — 8.6/10, 2ч 35м, жанры: drama, sci-fi
 # "Midnight In Oslo" (2020) — 8.9/10, 2ч 4м, жанры: mystery, thriller
 # "The Quiet Algorithm" (2024) — 9.2/10, 1ч 58м, жанры: drama, sci-fi
 
 total_minutes = sum(m["duration_min"] for m in movies if m["rating"] > 7)
-print(f'суммарная длительность фильмов с рейтингом выше 7: {total_minutes}')
+# print(f'суммарная длительность фильмов с рейтингом выше 7: {total_minutes}')
+
+# финальая сборка отчёта
+
+def build_report(movies):
+    print("Отчёт по каталогу")
+    print(f'Средний рейтинг: {average_rating(movies)}')
+    print(f'Средний возраст фильмов: {catalog_age_stats(movies)[1]}')
+    print()
+    print('Топ 3 фильма:')
+    for movie in iter_high_rated(movies):
+        print(format_report_line(movie))
+    print()
+    print("Фильмов по жанрам:")
+    counts = count_by_genre(movies)
+    for genre, count in sorted(counts.items(), key=lambda x: (-x[1], x[0])):
+        print(f"  {genre} — {count}")
+    print()
+    
+    all_g = all_genres(movies)
+    print(f"Все жанры каталога: {', '.join(sorted(all_g))}")
+
+
+build_report(movies)
