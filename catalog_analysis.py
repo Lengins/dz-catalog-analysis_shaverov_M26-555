@@ -118,4 +118,39 @@ def count_long_movies(movies, threshold=120):
             i += 1
     return f'Длинных фильмов: {i}'
 
-print(count_long_movies(movies))
+#print(count_long_movies(movies))
+
+# приступаем к 4 этапу
+
+def normalize_title(title):
+    """функция, делающая первую букву
+    каждого слова в названии фильма
+    заглавной"""
+    words = title.split()
+    return " ".join(word[0].upper() + word[1:] for word in words)
+
+#for m in movies:
+#   print(normalize_title(m['title']))
+       
+def make_slug(title):
+   """заменяем пробелы дефисами
+   приводим к нижнему индексу"""
+   return title.lower().replace(" ", "-")
+
+#for m in movies:
+#   print(make_slug(m['title']))
+
+def format_report_line(movie):
+   """функция формирует отчёт о каждом фильме
+   в определённом формате"""
+   genre = ", ".join(sorted(movie['genres']))
+   return (
+    f'"{normalize_title(movie['title'])}" ({movie['year']})'
+    f' - {movie['rating']}/10, {duration_in_hours(movie['duration_min'])},'
+    f' жанры: {genre}' # разбили по строкам для проверки ruff
+)
+# "The Quiet Algorithm" (2024) — 9.2/10, 1ч 58м, жанры: drama, sci-fi (ТЗ)
+# "The Quiet Algorithm" (2024) - 9.2/10, 1ч 58м, жанры: drama, sci-fi (Вывод функции)
+
+#for m in movies:
+#   print(format_report_line(m))
