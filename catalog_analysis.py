@@ -206,3 +206,30 @@ top_movies = {m['title']: m['rating']
               if m['rating'] > average_rating(movies)}
 
 #print(top_movies)
+
+# приступаем к 7 этапу - множествам
+
+def all_genres(movies):
+    '''функция, возвращающая
+    все уникальные жанры фильмов'''
+    result = set()
+    for movie in movies:
+        result.update(movie['genres'])
+    return result
+
+# print(all_genres(movies))
+
+def common_actors(movie1, movie2):
+    '''функция принимает два
+    фильма и возвращает актёров
+    игравших в обоих фильмах'''
+    return set(movie1['actors']) & set(movie2['actors'])
+
+def genres_only_in_one(movies_a, movies_b):
+    '''функция принимает два
+        фильма и возвращает жанры
+        которые есть в первом фильме
+        и отсутствуют во втором'''
+    genres_a = {g for m in movies_a for g in m['genres']}
+    genres_b = {g for m in movies_b for g in m['genres']}
+    return genres_a - genres_b
