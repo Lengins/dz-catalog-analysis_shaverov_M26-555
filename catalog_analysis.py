@@ -22,3 +22,30 @@ movies = [
     {"title": "Red Harbor", "year": 2018, "genres": {"action", "thriller"},
      "rating": 7.3, "duration_min": 129, "actors": ["P. Diaz", "T. Chalamet"]},
 ]
+
+# выполняем первый этап
+
+def average_rating(movies):
+    sum_rating  = sum(m['rating'] for m in movies)
+    rating = sum_rating / len(movies)
+    return round(rating, 1)
+
+print(average_rating(movies))
+
+def catalog_age_stats(movies, current_year = 2026):
+  age_list = []
+  for movie in movies:
+    age = current_year - movie['year']
+    age_list.append(age)
+  mean_age = sum(age_list) / len(age_list)
+  return min(age_list), math.ceil(mean_age), max(age_list)
+
+print(catalog_age_stats(movies))
+
+def duration_in_hours(minutes):
+   hours = minutes // 60
+   minute = minutes % 60
+   return f'{hours}ч {minute}м'
+
+for m in movies:
+   print(duration_in_hours(m['duration_min']))
