@@ -233,3 +233,19 @@ def genres_only_in_one(movies_a, movies_b):
     genres_a = {g for m in movies_a for g in m['genres']}
     genres_b = {g for m in movies_b for g in m['genres']}
     return genres_a - genres_b
+
+def iter_high_rated(movies, min_rating=8.0):
+    '''функция выводит фильмы с рейтингом
+    выше минимального заданного'''
+    for movie in movies:
+        if movie['rating'] >= min_rating:
+            yield movie
+
+for movie in iter_high_rated(movies):
+    print(format_report_line(movie))
+# "The Dune Chronicles" (2021) — 8.6/10, 2ч 35м, жанры: drama, sci-fi
+# "Midnight In Oslo" (2020) — 8.9/10, 2ч 4м, жанры: mystery, thriller
+# "The Quiet Algorithm" (2024) — 9.2/10, 1ч 58м, жанры: drama, sci-fi
+
+total_minutes = sum(m["duration_min"] for m in movies if m["rating"] > 7)
+print(f'суммарная длительность фильмов с рейтингом выше 7: {total_minutes}')
